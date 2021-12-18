@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -19,6 +20,7 @@ import com.thenextbiggeek.fampayextern.databinding.FragmentMainBinding;
 
 public class FragmentMain extends Fragment {
     private FragmentMainBinding binding;
+    private String API_URL = String.valueOf(R.string.api_url);
 
     public FragmentMain() {
     }
@@ -39,10 +41,16 @@ public class FragmentMain extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        isNetworkAvailable();
+        if(isNetworkAvailable()){
+            fetchAPI();
+        }
     }
 
-    private void isNetworkAvailable() {
+    private void fetchAPI() {
+
+    }
+
+    private boolean isNetworkAvailable() {
         ConnectivityManager connectivityManager
                 = (ConnectivityManager) requireActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
@@ -58,5 +66,6 @@ public class FragmentMain extends Fragment {
             AlertDialog alert11 = builder1.create();
             alert11.show();
         }
+        return netStatus;
     }
 }
