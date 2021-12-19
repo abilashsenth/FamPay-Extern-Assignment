@@ -6,14 +6,83 @@
     android:background="@color/white"
     tools:context=".FragmentMain">
 
-    <TextView
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:textSize="12sp"
-        android:textColor="@color/black"
-        android:id="@+id/sampleText"/>
+        android:layout_height="wrap_content">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <RelativeLayout
+                    android:id="@+id/hero"
+                    android:layout_width="wrap_content"
+                    android:layout_height="100sp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="15.87dp"
+                    android:background="@color/white">
+
+                    <TextView
+                        android:id="@+id/fampay"
+                        android:layout_width="68.09sp"
+                        android:layout_height="25sp"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginTop="15.87dp"
+                        android:fontFamily="@font/roboto_bold"
+                        android:gravity="top"
+                        android:text="@string/fampay"
+                        android:textAppearance="@style/fampay" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="25sp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="1sp"
+                        android:layout_marginTop="15.87dp"
+                        android:layout_toRightOf="@id/fampay"
+                        android:src="@drawable/ic_fampay_logo" />
+
+                </RelativeLayout>
+            </FrameLayout>
+
+
+            <FrameLayout
+                android:id="@+id/FrameLayout1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp">
+
+                <ImageView
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_gravity="center"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/bg_rectangle" />
+
+                <LinearLayout
+                    android:id="@+id/LinearLayout1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+
+
+
+
+                </LinearLayout>
+
+            </FrameLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
 
 
 </FrameLayout>

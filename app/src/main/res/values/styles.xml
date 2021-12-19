@@ -4,4 +4,16 @@
         <item name="android:background">@color/black_overlay</item>
         <item name="android:buttonBarStyle">?android:attr/buttonBarStyle</item>
     </style>
+
+    <style name="fampay">
+
+        <item name="android:textSize">
+            19.89sp
+        </item>
+
+        <item name="android:textColor">
+            #4C5454
+        </item>
+
+    </style>
 </resources>
