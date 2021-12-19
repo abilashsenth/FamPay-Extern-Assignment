@@ -100,6 +100,36 @@ public class FragmentMain extends Fragment {
         setUpHc3RecyclerView();
         setUpHc6RecyclerView();
         setUpHc5RecyclerView();
+        setUpHc9RecyclerView();
+
+    }
+
+    private void setUpHc9RecyclerView() {
+
+        ArrayList<CardGroup> hc9CardGroups = new ArrayList<CardGroup>();
+        for (int i = 0; i < cardGroupArrayList.size(); i++) {
+            if (cardGroupArrayList.get(i).getDesign_type().equals("HC9")) {
+                hc9CardGroups.add(cardGroupArrayList.get(i));
+            }
+        }
+        ArrayList<Card> hc9Cards = new ArrayList<Card>();
+        for (int i = 0; i < hc9CardGroups.size(); i++) {
+            hc9Cards.addAll(hc9CardGroups.get(i).getCards());
+        }
+        AdapterHc9 adapterHc9 = new AdapterHc9(hc9Cards, getContext());
+        binding.hc9Recyclerview.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+        binding.hc9Recyclerview.setItemAnimator(new DefaultItemAnimator());
+        binding.hc9Recyclerview.setAdapter(adapterHc9);
+        binding.hc9Recyclerview.addOnItemTouchListener(new RecyclerTouchListener(getContext(), binding.hc3Recyclerview, new RecyclerTouchListener.ClickListener() {
+            @Override
+            public void onClick(View view, int position) {
+
+            }
+
+            @Override
+            public void onLongClick(View view, int position) {
+            }
+        }));
     }
 
     private void setUpHc5RecyclerView() {
@@ -198,6 +228,12 @@ public class FragmentMain extends Fragment {
         }
         return netStatus;
     }
+
+    public static float pixelsToSp(Context context, float px) {
+        float scaledDensity = context.getResources().getDisplayMetrics().scaledDensity;
+        return px/scaledDensity;
+    }
+
 
 
 }
