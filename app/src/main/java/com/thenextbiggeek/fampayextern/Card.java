@@ -1,10 +1,12 @@
 package com.thenextbiggeek.fampayextern;
 
+import java.util.ArrayList;
+
 public class Card {
     private String name, title, description, url, bg_color;
     private CardImage icon, bg_image;
     private Gradient bg_gradient;
-    private CTA cta;
+    private ArrayList<CTA> cta;
     private FormattedText formatted_title;
     private FormattedText formatted_description;
 
@@ -28,7 +30,7 @@ public class Card {
         return icon;
     }
 
-    public CTA getCta() {
+    public ArrayList<CTA> getCta() {
         return cta;
     }
 
@@ -72,7 +74,7 @@ public class Card {
         this.bg_image = bg_image;
     }
 
-    public void setCta(CTA cta) {
+    public void setCta(ArrayList<CTA> cta) {
         this.cta = cta;
     }
 

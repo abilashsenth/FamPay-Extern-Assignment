@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void loadFragment(Fragment fragment, Bundle savedInstanceState) {
-        if (fragment != null && savedInstanceState !=null) {
+        if (fragment != null && savedInstanceState ==null) {
             getSupportFragmentManager().beginTransaction().
                     setReorderingAllowed(true)
                     .add(R.id.fragment_container_view, FragmentMain.class, null)

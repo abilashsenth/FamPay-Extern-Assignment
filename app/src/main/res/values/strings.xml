@@ -4,5 +4,5 @@
     <string name="dummy_content">DUMMY\nCONTENT</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="api_url">https://run.mocky.io/v3/fefcfbeb-5c12-4722-94ad-b8f92caad1ad</string>
+
 </resources>
