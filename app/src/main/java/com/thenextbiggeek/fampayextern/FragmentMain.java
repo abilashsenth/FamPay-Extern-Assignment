@@ -37,8 +37,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class FragmentMain extends Fragment {
     private FragmentMainBinding binding;
     private ArrayList<CardGroup> cardGroupArrayList;
-    private AdapterHc3 adapterHc3;
-
 
 
     public FragmentMain() {
@@ -100,6 +98,32 @@ public class FragmentMain extends Fragment {
 
     private void loadCardViews() {
         setUpHc3RecyclerView();
+        setUpHc6RecyclerView();
+    }
+
+    private void setUpHc6RecyclerView() {
+        ArrayList<CardGroup> hc6CardGroups = new ArrayList<CardGroup>();
+        for (int i = 0; i < cardGroupArrayList.size(); i++) {
+            if (cardGroupArrayList.get(i).getDesign_type().equals("HC6")) {
+                hc6CardGroups.add(cardGroupArrayList.get(i));
+            }
+        }
+        AdapterHc6 adapterHc6 = new AdapterHc6(hc6CardGroups, getContext());
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
+        binding.hc6Recyclerview.setLayoutManager(mLayoutManager);
+        binding.hc6Recyclerview.setItemAnimator(new DefaultItemAnimator());
+        binding.hc6Recyclerview.setAdapter(adapterHc6);
+        binding.hc6Recyclerview.addOnItemTouchListener(new RecyclerTouchListener(getContext(), binding.hc3Recyclerview, new RecyclerTouchListener.ClickListener() {
+            @Override
+            public void onClick(View view, int position) {
+
+            }
+
+            @Override
+            public void onLongClick(View view, int position) {
+            }
+        }));
+
     }
 
     private void setUpHc3RecyclerView() {
@@ -109,7 +133,7 @@ public class FragmentMain extends Fragment {
                 hc3CardGroups.add(cardGroupArrayList.get(i));
             }
         }
-        adapterHc3 = new AdapterHc3(hc3CardGroups, getContext());
+        AdapterHc3 adapterHc3 = new AdapterHc3(hc3CardGroups, getContext());
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         binding.hc3Recyclerview.setLayoutManager(mLayoutManager);
         binding.hc3Recyclerview.setItemAnimator(new DefaultItemAnimator());

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fancy="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="75sp"
+    android:id="@+id/item_hc6_parent"
+    android:orientation="vertical">
+
+    <androidx.cardview.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/card_view_outer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        card_view:cardBackgroundColor="@android:color/transparent"
+        card_view:cardCornerRadius="0dp"
+        card_view:cardElevation="0dp">
+
+        <androidx.cardview.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/card_view_inner_main"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_margin="10sp"
+            card_view:cardBackgroundColor="#ffffff"
+            card_view:cardCornerRadius="6dp"
+            card_view:cardElevation="4dp">
+
+            <RelativeLayout
+                android:id="@+id/item_hc6_base"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+
+                <ImageView
+                    android:id="@+id/item_hc6_icon"
+                    android:layout_width="30sp"
+                    android:layout_height="30sp"
+                    android:layout_marginLeft="10sp"
+                    android:layout_centerVertical="true"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/bg_rectangle" />
+
+
+                    <TextView
+                        android:id="@+id/item_hc6_title"
+                        android:layout_toRightOf="@id/item_hc6_icon"
+                        android:layout_marginLeft="10sp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="@string/big_display"
+                        android:textColor="#000000"
+                        android:textSize="14sp"
+                        android:layout_centerVertical="true"
+                        />
+
+
+                <ImageView
+                    android:id="@+id/item_hc6_arrow"
+                    android:layout_width="15sp"
+                    android:layout_height="15sp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10sp"
+                    android:src="@drawable/ic_arrow_right" />
+
+
+
+            </RelativeLayout>
+
+
+        </androidx.cardview.widget.CardView>
+
+    </androidx.cardview.widget.CardView>
+
+</LinearLayout>
