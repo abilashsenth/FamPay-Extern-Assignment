@@ -2,6 +2,7 @@ package com.thenextbiggeek.fampayextern;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -9,6 +10,9 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -25,6 +29,7 @@ import com.thenextbiggeek.fampayextern.databinding.FragmentMainBinding;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -32,6 +37,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class FragmentMain extends Fragment {
     private FragmentMainBinding binding;
     private ArrayList<CardGroup> cardGroupArrayList;
+    private AdapterHc3 adapterHc3;
+
 
 
     public FragmentMain() {
@@ -76,10 +83,9 @@ public class FragmentMain extends Fragment {
                             JSONObject cardGroupObject = result.getJSONObject(i);
                             Gson gson = new Gson();
                             CardGroup cardGroup = gson.fromJson(cardGroupObject.toString(), CardGroup.class);
-                            String designType = cardGroup.getCards().get(0).getName();
-                            Log.e("NAME", designType);
+                            cardGroupArrayList.add(cardGroup);
                         }
-
+                        loadCardViews();
 
                     } catch (Exception e) {
                         Log.e("APIFetch", e.toString());
@@ -90,6 +96,34 @@ public class FragmentMain extends Fragment {
 
         // Add JsonObjectRequest to the RequestQueue
         requestQueue.add(jsonObjectRequest);
+    }
+
+    private void loadCardViews() {
+        setUpHc3RecyclerView();
+    }
+
+    private void setUpHc3RecyclerView() {
+        ArrayList<CardGroup> hc3CardGroups = new ArrayList<CardGroup>();
+        for (int i = 0; i < cardGroupArrayList.size(); i++) {
+            if (cardGroupArrayList.get(i).getDesign_type().equals("HC3")) {
+                hc3CardGroups.add(cardGroupArrayList.get(i));
+            }
+        }
+        adapterHc3 = new AdapterHc3(hc3CardGroups, getContext());
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
+        binding.hc3Recyclerview.setLayoutManager(mLayoutManager);
+        binding.hc3Recyclerview.setItemAnimator(new DefaultItemAnimator());
+        binding.hc3Recyclerview.setAdapter(adapterHc3);
+        binding.hc3Recyclerview.addOnItemTouchListener(new RecyclerTouchListener(getContext(), binding.hc3Recyclerview, new RecyclerTouchListener.ClickListener() {
+            @Override
+            public void onClick(View view, int position) {
+
+            }
+
+            @Override
+            public void onLongClick(View view, int position) {
+            }
+        }));
     }
 
 
@@ -111,4 +145,6 @@ public class FragmentMain extends Fragment {
         }
         return netStatus;
     }
+
+
 }

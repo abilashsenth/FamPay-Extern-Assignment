@@ -6,5 +6,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="fampay">fampay</string>
     <string name="abilashsenth">\@abilashsenth</string>
+    <string name="big_display">Big Display card with action</string>
+    <string name="sample_text">This is a sample text for the subtitle that you can add to contextual cards</string>
 
 </resources>

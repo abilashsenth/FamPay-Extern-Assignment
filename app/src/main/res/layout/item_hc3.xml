@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fancy="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <androidx.cardview.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/card_view_outer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        card_view:cardBackgroundColor="@android:color/transparent"
+        card_view:cardCornerRadius="0dp"
+        card_view:cardElevation="0dp">
+
+        <androidx.cardview.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/card_view_inner_main"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="10sp"
+            card_view:cardBackgroundColor="#2C282A"
+            card_view:cardCornerRadius="6dp"
+            card_view:cardElevation="4dp">
+
+            <FrameLayout
+                android:id="@+id/item_hc3_base"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/item_hc3_bg_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="390sp"
+                    android:layout_gravity="center"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/bg_rectangle" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/item_hc3_title"
+                        android:layout_width="260sp"
+                        android:layout_height="70sp"
+                        android:layout_marginLeft="53sp"
+                        android:layout_marginTop="140sp"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="@string/big_display"
+                        android:textColor="#FBAF03"
+                        android:textSize="30sp" />
+
+                    <TextView
+                        android:id="@+id/item_hc3_sub_title"
+                        android:layout_width="260sp"
+                        android:layout_height="36sp"
+                        android:layout_marginLeft="53sp"
+                        android:layout_marginTop="20sp"
+                        android:fontFamily="@font/roboto_medium"
+                        android:lineSpacingExtra="4sp"
+                        android:text="@string/sample_text"
+                        android:textColor="#FFFFFF"
+                        android:textSize="12sp" />
+
+                    <mehdi.sakout.fancybuttons.FancyButton
+                        android:id="@+id/item_hc3_button"
+                        android:layout_width="148sp"
+                        android:layout_height="42sp"
+                        android:layout_marginLeft="53sp"
+                        android:layout_marginTop="20sp"
+                        android:background="@drawable/rectangle"
+                        android:text="Action"
+                        android:textAlignment="center"
+                        android:textAllCaps="false"
+                        android:textColor="@color/white"
+                        android:textSize="14sp"
+                        fancy:fb_radius="5sp" />
+
+                </LinearLayout>
+
+
+            </FrameLayout>
+
+
+        </androidx.cardview.widget.CardView>
+
+    </androidx.cardview.widget.CardView>
+
+</LinearLayout>
