@@ -2,9 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:fancy="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="85sp"
-    android:id="@+id/item_hc6_parent"
-    android:orientation="vertical">
+    android:layout_height="200sp"
+    android:id="@+id/item_hc5_parent"
+    android:orientation="horizontal">
 
     <androidx.cardview.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:id="@+id/card_view_outer"
@@ -26,44 +26,19 @@
             card_view:cardElevation="4dp">
 
             <RelativeLayout
-                android:id="@+id/item_hc6_base"
+                android:id="@+id/item_hc5_base"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
 
                 <ImageView
-                    android:id="@+id/item_hc6_icon"
-                    android:layout_width="30sp"
-                    android:layout_height="30sp"
+                    android:id="@+id/item_hc5_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:layout_marginLeft="10sp"
                     android:layout_centerVertical="true"
                     android:scaleType="centerCrop"
                     android:src="@drawable/bg_rectangle" />
-
-
-                    <TextView
-                        android:id="@+id/item_hc6_title"
-                        android:layout_toRightOf="@id/item_hc6_icon"
-                        android:layout_marginLeft="10sp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/roboto_medium"
-                        android:text="@string/big_display"
-                        android:textColor="#000000"
-                        android:textSize="14sp"
-                        android:layout_centerVertical="true"
-                        />
-
-
-                <ImageView
-                    android:id="@+id/item_hc6_arrow"
-                    android:layout_width="15sp"
-                    android:layout_height="15sp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="10sp"
-                    android:src="@drawable/ic_arrow_right" />
-
 
 
             </RelativeLayout>

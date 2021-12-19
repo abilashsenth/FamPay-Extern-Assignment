@@ -99,6 +99,35 @@ public class FragmentMain extends Fragment {
     private void loadCardViews() {
         setUpHc3RecyclerView();
         setUpHc6RecyclerView();
+        setUpHc5RecyclerView();
+    }
+
+    private void setUpHc5RecyclerView() {
+
+        ArrayList<CardGroup> hc5CardGroups = new ArrayList<CardGroup>();
+        for (int i = 0; i < cardGroupArrayList.size(); i++) {
+            if (cardGroupArrayList.get(i).getDesign_type().equals("HC5")) {
+                hc5CardGroups.add(cardGroupArrayList.get(i));
+            }
+        }
+        ArrayList<Card> hc5Cards = new ArrayList<Card>();
+        for (int i = 0; i < hc5CardGroups.size(); i++) {
+            hc5Cards.addAll(hc5CardGroups.get(i).getCards());
+        }
+        AdapterHc5 adapterHc5 = new AdapterHc5(hc5Cards, getContext());
+        binding.hc5Recyclerview.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+        binding.hc5Recyclerview.setItemAnimator(new DefaultItemAnimator());
+        binding.hc5Recyclerview.setAdapter(adapterHc5);
+        binding.hc5Recyclerview.addOnItemTouchListener(new RecyclerTouchListener(getContext(), binding.hc3Recyclerview, new RecyclerTouchListener.ClickListener() {
+            @Override
+            public void onClick(View view, int position) {
+
+            }
+
+            @Override
+            public void onLongClick(View view, int position) {
+            }
+        }));
     }
 
     private void setUpHc6RecyclerView() {
