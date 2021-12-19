@@ -125,6 +125,28 @@
 
                     </RelativeLayout>
 
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/hc1_recyclerview_scroll"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10sp"
+                        android:layout_marginTop="20sp"
+                        android:layout_marginRight="10sp"
+                        android:layout_weight="1"
+                        android:scrollbars="none"
+                        android:visibility="visible" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/hc1_recyclerview_noscroll"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10sp"
+                        android:layout_marginTop="20sp"
+                        android:layout_marginRight="10sp"
+                        android:layout_weight="1"
+                        android:scrollbars="none"
+                        android:visibility="gone" />
+
 
                 </LinearLayout>
 

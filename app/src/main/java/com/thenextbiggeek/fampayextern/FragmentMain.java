@@ -101,7 +101,62 @@ public class FragmentMain extends Fragment {
         setUpHc6RecyclerView();
         setUpHc5RecyclerView();
         setUpHc9RecyclerView();
+        setUpHc1RecyclerView();
 
+    }
+
+    private void setUpHc1RecyclerView() {
+        ArrayList<CardGroup> hc1CardGroupsScroll = new ArrayList<CardGroup>();
+        ArrayList<CardGroup> hc1CardGroupsNoScroll = new ArrayList<CardGroup>();
+
+        for (int i = 0; i < cardGroupArrayList.size(); i++) {
+            if (cardGroupArrayList.get(i).getDesign_type().equals("HC1")) {
+                if(cardGroupArrayList.get(i).isIs_scrollable()){
+                    hc1CardGroupsScroll.add(cardGroupArrayList.get(i));
+                }else{
+                    hc1CardGroupsNoScroll.add(cardGroupArrayList.get(i));
+                }
+            }
+        }
+        ArrayList<Card> hc1CardsScroll = new ArrayList<Card>();
+        for (int i = 0; i < hc1CardGroupsScroll.size(); i++) {
+            hc1CardsScroll.addAll(hc1CardGroupsScroll.get(i).getCards());
+        }
+
+        ArrayList<Card> hc1CardsNoScroll = new ArrayList<Card>();
+        for (int i = 0; i < hc1CardGroupsNoScroll.size(); i++) {
+            hc1CardsNoScroll.addAll(hc1CardGroupsNoScroll.get(i).getCards());
+        }
+        AdapterHc1 adapterHc1Scroll = new AdapterHc1(hc1CardsScroll, getContext());
+        binding.hc1RecyclerviewScroll.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+        binding.hc1RecyclerviewScroll.setItemAnimator(new DefaultItemAnimator());
+        binding.hc1RecyclerviewScroll.setAdapter(adapterHc1Scroll);
+        binding.hc1RecyclerviewScroll.addOnItemTouchListener(new RecyclerTouchListener(getContext(), binding.hc3Recyclerview, new RecyclerTouchListener.ClickListener() {
+            @Override
+            public void onClick(View view, int position) {
+
+            }
+
+            @Override
+            public void onLongClick(View view, int position) {
+            }
+        }));
+
+        AdapterHc1 adapterHc1NoScroll = new AdapterHc1(hc1CardsNoScroll, getContext());
+        binding.hc1RecyclerviewNoscroll.setVisibility(View.VISIBLE);
+        binding.hc1RecyclerviewNoscroll.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+        binding.hc1RecyclerviewNoscroll.setItemAnimator(new DefaultItemAnimator());
+        binding.hc1RecyclerviewNoscroll.setAdapter(adapterHc1NoScroll);
+        binding.hc1RecyclerviewNoscroll.addOnItemTouchListener(new RecyclerTouchListener(getContext(), binding.hc3Recyclerview, new RecyclerTouchListener.ClickListener() {
+            @Override
+            public void onClick(View view, int position) {
+
+            }
+
+            @Override
+            public void onLongClick(View view, int position) {
+            }
+        }));
     }
 
     private void setUpHc9RecyclerView() {
