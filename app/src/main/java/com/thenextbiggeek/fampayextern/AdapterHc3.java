@@ -6,9 +6,13 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -32,12 +36,13 @@ public class AdapterHc3 extends RecyclerView.Adapter<AdapterHc3.MyViewHolder> {
     private final ArrayList<CardGroup> cardGroup;
     private final Context mContext;
     private FragmentMain mHomeFragment;
+    boolean opened = false;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public ImageView hc3BgImage;
         public TextView hc3Title, hc3Subtitle;
         public FancyButton hc3Button;
-        public FrameLayout hc3Base;
+        public FrameLayout hc3Base, hc3menu;
         public LinearLayout hc3Parent;
 
         public MyViewHolder(View view) {
@@ -47,6 +52,7 @@ public class AdapterHc3 extends RecyclerView.Adapter<AdapterHc3.MyViewHolder> {
             hc3Title = (TextView) view.findViewById(R.id.item_hc3_title);
             hc3Subtitle = (TextView) view.findViewById(R.id.item_hc3_sub_title);
             hc3Base = (FrameLayout) view.findViewById(R.id.item_hc3_base);
+            hc3menu = (FrameLayout) view.findViewById(R.id.item_hc3_menu);
             hc3Parent = (LinearLayout) view.findViewById(R.id.item_hc3_parent);
 
         }
@@ -64,6 +70,7 @@ public class AdapterHc3 extends RecyclerView.Adapter<AdapterHc3.MyViewHolder> {
                 .inflate(R.layout.item_hc3, parent, false);
         return new AdapterHc3.MyViewHolder(itemView);
     }
+
 
     @Override
     public void onBindViewHolder(final AdapterHc3.MyViewHolder holder, final int position) {
@@ -98,14 +105,70 @@ public class AdapterHc3 extends RecyclerView.Adapter<AdapterHc3.MyViewHolder> {
         });
 
         //onclick for the view
-        holder.hc3Parent.setOnClickListener(view -> {
-            mContext.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(card.getUrl())));
-        });
+        setUpSlidingMenuAndClick(holder, card);
 
 
     }
 
-    private int getComplementaryColor( int color) {
+    private void setUpSlidingMenuAndClick(MyViewHolder holder, Card card) {
+        holder.hc3Base.setOnLongClickListener(view -> {
+            vibrateQuick(50);
+            if(!opened){
+                holder.hc3menu.setVisibility(View.VISIBLE);
+                TranslateAnimation animate = new TranslateAnimation(
+                        0,
+                        500,
+                        0,
+                        0);
+                animate.setDuration(250);
+                animate.setFillAfter(true);
+                view.startAnimation(animate);
+            } else {
+                view.setVisibility(View.INVISIBLE);
+                TranslateAnimation animate = new TranslateAnimation(
+                        500,
+                        0,
+                        0,
+                        0);
+                animate.setDuration(250);
+                animate.setFillAfter(true);
+                view.startAnimation(animate);
+            }
+            opened = !opened;
+            return true;
+        });
+
+        holder.hc3Base.setOnClickListener(view -> {
+            if(opened){
+                view.setVisibility(View.INVISIBLE);
+                TranslateAnimation animate = new TranslateAnimation(
+                        500,
+                        0,
+                        0,
+                        0);
+                animate.setDuration(250);
+                animate.setFillAfter(true);
+                view.startAnimation(animate);
+                opened = !opened;
+
+            }else{
+                //usual url opening
+                mContext.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(card.getUrl())));
+            }
+        });
+    }
+
+    private void vibrateQuick(int i) {
+        Vibrator v = (Vibrator) mContext.getSystemService(Context.VIBRATOR_SERVICE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            v.vibrate(VibrationEffect.createOneShot(i, VibrationEffect.DEFAULT_AMPLITUDE));
+        } else {
+            //deprecated in API 26
+            v.vibrate(i);
+        }
+    }
+
+    private int getComplementaryColor(int color) {
         int R = color & 255;
         int G = (color >> 8) & 255;
         int B = (color >> 16) & 255;
@@ -113,7 +176,7 @@ public class AdapterHc3 extends RecyclerView.Adapter<AdapterHc3.MyViewHolder> {
         R = 255 - R;
         G = 255 - G;
         B = 255 - B;
-        return R + (G << 8) + ( B << 16) + ( A << 24);
+        return R + (G << 8) + (B << 16) + (A << 24);
     }
 
     @Override

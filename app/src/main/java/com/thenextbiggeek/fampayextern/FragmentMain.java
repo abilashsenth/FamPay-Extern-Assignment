@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -111,9 +112,9 @@ public class FragmentMain extends Fragment {
 
         for (int i = 0; i < cardGroupArrayList.size(); i++) {
             if (cardGroupArrayList.get(i).getDesign_type().equals("HC1")) {
-                if(cardGroupArrayList.get(i).isIs_scrollable()){
+                if (cardGroupArrayList.get(i).isIs_scrollable()) {
                     hc1CardGroupsScroll.add(cardGroupArrayList.get(i));
-                }else{
+                } else {
                     hc1CardGroupsNoScroll.add(cardGroupArrayList.get(i));
                 }
             }
@@ -262,6 +263,7 @@ public class FragmentMain extends Fragment {
             public void onLongClick(View view, int position) {
             }
         }));
+
     }
 
 
@@ -282,11 +284,6 @@ public class FragmentMain extends Fragment {
             alert11.show();
         }
         return netStatus;
-    }
-
-    public static float pixelsToSp(Context context, float px) {
-        float scaledDensity = context.getResources().getDisplayMetrics().scaledDensity;
-        return px/scaledDensity;
     }
 
 
