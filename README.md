@@ -3,7 +3,9 @@ Hi! I'm Abilash Senthilkumar, and this is My entry for Github externship - Fampa
 
 # Quick Description of the Assignment:
 
-A "contextual container" is incorporated that works plug and play with any activity/fragment that can effectively get instructions from a REST API and render contextual cards in a list based on the API response, while adhering to the design specifications provided
+1) A "contextual container" is incorporated that works plug and play with any activity/fragment;
+2) ...that can effectively get instructions from a REST API and render contextual cards in a list based on the API response,
+3) also while adhering to the design specifications provided
 
 # Checklist of challenges I was able to achieve
 
