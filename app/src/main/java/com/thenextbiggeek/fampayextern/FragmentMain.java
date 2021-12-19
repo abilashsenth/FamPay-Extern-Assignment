@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -63,6 +64,12 @@ public class FragmentMain extends Fragment {
         if (isNetworkAvailable()) {
             fetchAPI();
         }
+        binding.fragmentMainSwiperefesh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                binding.fragmentMainSwiperefesh.setRefreshing(false);
+            }
+        });
     }
 
     private void fetchAPI() {
