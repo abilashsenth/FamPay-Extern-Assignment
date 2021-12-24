@@ -26,6 +26,8 @@ Expected Deliverables: <br>
 <span><img src="https://i.imgur.com/jfDbKRH.jpg" width="150px"/></span>
 <span><img src="https://i.imgur.com/VcIzcCU.jpg" width="150px"/></span>
 <span><img src="https://i.imgur.com/dgPuSzq.jpg" width="150px"/></span>
+<span><img src="https://i.imgur.com/4hvDdHr.png" width="150px"/></span>
+
 
 
 # Resources used:
