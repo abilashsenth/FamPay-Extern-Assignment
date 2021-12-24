@@ -3,6 +3,7 @@ package com.thenextbiggeek.fampayextern;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -20,6 +21,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -34,11 +36,16 @@ import org.json.JSONObject;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Objects;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class FragmentMain extends Fragment {
+    private static final String MY_PREFS_NAME = "FamPayExternPref" ;
     private FragmentMainBinding binding;
     private ArrayList<CardGroup> cardGroupArrayList;
+    private boolean isHc3Dismissed;
+    static final String STATE_HC3 = "ishc3dismissed";
 
 
     public FragmentMain() {
@@ -60,16 +67,13 @@ public class FragmentMain extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        cardGroupArrayList = new ArrayList<CardGroup>();
+        SharedPreferences prefs = Objects.requireNonNull(getActivity()).getSharedPreferences(MY_PREFS_NAME, getContext().MODE_PRIVATE);
+        isHc3Dismissed = prefs.getBoolean(STATE_HC3, false);
+        cardGroupArrayList = new ArrayList<>();
         if (isNetworkAvailable()) {
             fetchAPI();
         }
-        binding.fragmentMainSwiperefesh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                binding.fragmentMainSwiperefesh.setRefreshing(false);
-            }
-        });
+        binding.fragmentMainSwiperefesh.setOnRefreshListener(() -> binding.fragmentMainSwiperefesh.setRefreshing(false));
     }
 
     private void fetchAPI() {
@@ -105,7 +109,12 @@ public class FragmentMain extends Fragment {
     }
 
     private void loadCardViews() {
-        setUpHc3RecyclerView();
+        if (!isHc3Dismissed) {
+            setUpHc3RecyclerView();
+        } else {
+            binding.hc3Recyclerview.setVisibility(View.GONE);
+            editSharedPref(false);
+        }
         setUpHc6RecyclerView();
         setUpHc5RecyclerView();
         setUpHc9RecyclerView();
@@ -248,6 +257,33 @@ public class FragmentMain extends Fragment {
 
     }
 
+    public void hideHc3(boolean isDismissed) {
+        Timer timerObj = new Timer();
+        TimerTask timerTaskObj = new TimerTask() {
+            public void run() {
+                getActivity().runOnUiThread(() -> {
+                    binding.hc3Recyclerview.setVisibility(View.GONE);
+                    if (isDismissed) {
+                        Toast.makeText(getContext(), "Card is dismissed", Toast.LENGTH_SHORT).show();
+                        editSharedPref(true);
+                    } else {
+                        Toast.makeText(getContext(), "Card will display at next app launch", Toast.LENGTH_SHORT).show();
+                        editSharedPref(false);
+                    }
+                });
+            }
+        };
+        timerObj.schedule(timerTaskObj, 2000);
+
+    }
+
+    private void editSharedPref(boolean b) {
+        SharedPreferences.Editor editor = getActivity().getSharedPreferences(MY_PREFS_NAME, getContext().MODE_PRIVATE).edit();
+        editor.putBoolean(STATE_HC3, b);
+        editor.apply();
+    }
+
+
     private void setUpHc3RecyclerView() {
         ArrayList<CardGroup> hc3CardGroups = new ArrayList<CardGroup>();
         for (int i = 0; i < cardGroupArrayList.size(); i++) {
@@ -255,7 +291,7 @@ public class FragmentMain extends Fragment {
                 hc3CardGroups.add(cardGroupArrayList.get(i));
             }
         }
-        AdapterHc3 adapterHc3 = new AdapterHc3(hc3CardGroups, getContext());
+        AdapterHc3 adapterHc3 = new AdapterHc3(hc3CardGroups, getContext(), this);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         binding.hc3Recyclerview.setLayoutManager(mLayoutManager);
         binding.hc3Recyclerview.setItemAnimator(new DefaultItemAnimator());
@@ -292,7 +328,6 @@ public class FragmentMain extends Fragment {
         }
         return netStatus;
     }
-
 
 
 }

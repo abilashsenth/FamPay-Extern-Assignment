@@ -2,8 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:fancy="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:id="@+id/item_hc3_parent"
     android:layout_height="wrap_content"
+    android:id="@+id/item_hc3_linearlayout"
     android:orientation="vertical">
 
     <androidx.cardview.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
@@ -16,12 +16,11 @@
         card_view:cardElevation="0dp">
 
         <androidx.cardview.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/card_view_inner_main"
+            android:id="@+id/item_hc3_parent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_margin="10sp"
-            card_view:cardBackgroundColor="#2C282A"
             card_view:cardCornerRadius="6dp"
             card_view:cardElevation="4dp">
 
@@ -90,6 +89,7 @@
                 android:layout_width="match_parent"
                 android:background="@color/white"
                 android:elevation="-1sp"
+                android:visibility="visible"
                 android:layout_height="match_parent">
 
                 <LinearLayout
@@ -98,34 +98,53 @@
                     android:orientation="vertical"
                     android:layout_gravity="left">
 
-                    <ImageView
-                        android:id="@+id/item_hc3_menu_btn1"
-                        android:layout_width="100sp"
-                        android:layout_height="wrap_content"
+                    <mehdi.sakout.fancybuttons.FancyButton
+                        android:id="@+id/item_hc3_menu_btn_snooze"
+                        android:layout_width="110sp"
+                        android:layout_height="110sp"
                         android:layout_marginLeft="15sp"
                         android:layout_marginTop="60sp"
-                        android:src="@drawable/remind_later_icon"
+                        fancy:fb_radius="25sp"
+                        fancy:fb_iconPaddingLeft="19sp"
+                        fancy:fb_iconPaddingTop="25sp"
+                        android:elevation="4sp"
+                        android:text="  "
+                        fancy:fb_iconResource="@drawable/remind_later_icon"
+                        android:backgroundTint="@color/grey_tone"
                         />
 
-                    <ImageView
-                        android:id="@+id/item_hc3_menu_btn2"
-                        android:layout_width="100sp"
-                        android:layout_height="wrap_content"
+
+                    <mehdi.sakout.fancybuttons.FancyButton
+                        android:id="@+id/item_hc3_menu_btn_dismiss"
+                        android:layout_width="110sp"
+                        android:layout_height="110sp"
                         android:layout_marginLeft="15sp"
-                        android:layout_marginTop="15sp"
-                        android:src="@drawable/dismiss_icon"
+                        android:layout_marginTop="30sp"
+                        fancy:fb_radius="25sp"
+                        fancy:fb_iconPaddingLeft="27sp"
+                        fancy:fb_iconPaddingTop="25sp"
+                        android:elevation="4sp"
+                        android:text="     "
+                        fancy:fb_iconResource="@drawable/dismiss_icon"
+                        android:backgroundTint="@color/grey_tone"
                         />
-
-
                 </LinearLayout>
-
-
-
             </FrameLayout>
-
-
-
         </androidx.cardview.widget.CardView>
+
+        <FrameLayout
+            android:visibility="visible"
+            android:id="@+id/item_hc3_dismiss_message"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:layout_width="120sp"
+                android:layout_height="wrap_content"
+                android:src="@drawable/item_dismissed"
+                android:layout_gravity="center"/>
+
+        </FrameLayout>
 
     </androidx.cardview.widget.CardView>
 

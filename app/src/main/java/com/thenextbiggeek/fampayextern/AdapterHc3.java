@@ -1,5 +1,10 @@
 package com.thenextbiggeek.fampayextern;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -9,18 +14,21 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
-import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -28,6 +36,8 @@ import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
 
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import mehdi.sakout.fancybuttons.FancyButton;
 
@@ -43,7 +53,10 @@ public class AdapterHc3 extends RecyclerView.Adapter<AdapterHc3.MyViewHolder> {
         public TextView hc3Title, hc3Subtitle;
         public FancyButton hc3Button;
         public FrameLayout hc3Base, hc3menu;
-        public LinearLayout hc3Parent;
+        public LinearLayout hc3Layout;
+        public CardView hc3Parent;
+        public FancyButton hc3BaseDismiss, hc3BaseSnooze;
+
 
         public MyViewHolder(View view) {
             super(view);
@@ -53,14 +66,19 @@ public class AdapterHc3 extends RecyclerView.Adapter<AdapterHc3.MyViewHolder> {
             hc3Subtitle = (TextView) view.findViewById(R.id.item_hc3_sub_title);
             hc3Base = (FrameLayout) view.findViewById(R.id.item_hc3_base);
             hc3menu = (FrameLayout) view.findViewById(R.id.item_hc3_menu);
-            hc3Parent = (LinearLayout) view.findViewById(R.id.item_hc3_parent);
+            hc3Parent = (CardView) view.findViewById(R.id.item_hc3_parent);
+            hc3BaseDismiss = (FancyButton) view.findViewById(R.id.item_hc3_menu_btn_dismiss);
+            hc3BaseSnooze = (FancyButton) view.findViewById(R.id.item_hc3_menu_btn_snooze);
+            hc3Layout = (LinearLayout) view.findViewById(R.id.item_hc3_linearlayout);
+
 
         }
     }
 
-    public AdapterHc3(ArrayList<CardGroup> cardGroup, Context mContext) {
+    public AdapterHc3(ArrayList<CardGroup> cardGroup, Context mContext, FragmentMain fragment) {
         this.cardGroup = cardGroup;
         this.mContext = mContext;
+        this.mHomeFragment = fragment;
 
     }
 
@@ -113,49 +131,70 @@ public class AdapterHc3 extends RecyclerView.Adapter<AdapterHc3.MyViewHolder> {
     private void setUpSlidingMenuAndClick(MyViewHolder holder, Card card) {
         holder.hc3Base.setOnLongClickListener(view -> {
             vibrateQuick(50);
-            if(!opened){
-                holder.hc3menu.setVisibility(View.VISIBLE);
-                TranslateAnimation animate = new TranslateAnimation(
-                        0,
-                        500,
-                        0,
-                        0);
-                animate.setDuration(250);
-                animate.setFillAfter(true);
-                view.startAnimation(animate);
+            if (!opened) {
+                ObjectAnimator animation = ObjectAnimator.ofFloat(view, "translationX", 500f);
+                animation.setDuration(250);
+                animation.start();
             } else {
-                view.setVisibility(View.INVISIBLE);
-                TranslateAnimation animate = new TranslateAnimation(
-                        500,
-                        0,
-                        0,
-                        0);
-                animate.setDuration(250);
-                animate.setFillAfter(true);
-                view.startAnimation(animate);
+                ObjectAnimator animation = ObjectAnimator.ofFloat(view, "translationX", 0f);
+                animation.setDuration(250);
+                animation.start();
             }
             opened = !opened;
             return true;
         });
 
         holder.hc3Base.setOnClickListener(view -> {
-            if(opened){
-                view.setVisibility(View.INVISIBLE);
-                TranslateAnimation animate = new TranslateAnimation(
-                        500,
-                        0,
-                        0,
-                        0);
-                animate.setDuration(250);
-                animate.setFillAfter(true);
-                view.startAnimation(animate);
+            if (opened) {
+                ObjectAnimator animation = ObjectAnimator.ofFloat(view, "translationX", 0f);
+                animation.setDuration(250);
+                animation.start();
                 opened = !opened;
 
-            }else{
+            } else {
                 //usual url opening
                 mContext.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(card.getUrl())));
             }
         });
+
+        holder.hc3BaseSnooze.setOnClickListener(view -> {
+            Log.e("Button", "snooze");
+            ValueAnimator fadeAnim = ObjectAnimator.ofFloat(holder.hc3Parent, "alpha", 1f, 0f);
+            fadeAnim.setDuration(250);
+            fadeAnim.addListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    super.onAnimationEnd(animation);
+                    mHomeFragment.hideHc3(false);
+                }
+            });
+            AnimatorSet animatorSet = new AnimatorSet();
+            animatorSet.play(fadeAnim);
+            animatorSet.start();
+        });
+
+        holder.hc3BaseDismiss.setOnClickListener(view -> {
+            Log.e("Button", "dismiss");
+            ValueAnimator fadeAnim = ObjectAnimator.ofFloat(holder.hc3Parent, "alpha", 1f, 0f);
+            fadeAnim.setDuration(250);
+            fadeAnim.addListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    super.onAnimationEnd(animation);
+                    mHomeFragment.hideHc3(true);
+
+                }
+            });
+            AnimatorSet animatorSet = new AnimatorSet();
+            animatorSet.play(fadeAnim);
+            animatorSet.start();
+        });
+
+
+    }
+
+    private void hideLayout(MyViewHolder holder) {
+        holder.hc3Layout.setVisibility(View.GONE);
     }
 
     private void vibrateQuick(int i) {
