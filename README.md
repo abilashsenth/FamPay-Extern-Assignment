@@ -1,5 +1,6 @@
 # GitHub Externship Winter Cohort 2021 - Organization : FamPay Android-Extern-Assignment
 Hi! I'm Abilash Senthilkumar, and this is My entry for Github externship - Fampay for the project 'Android assignment'
+NOTE: APK is under app/release folder of this project
 
 # Quick Description of the Assignment:
 
