@@ -16,7 +16,7 @@ Expected Deliverables: <br>
 ✔On long press of Big Display Card (HC3), it should slide to the right and display action buttons as per the design <br>
 ✔ On tapping "remind later" action on a card, it should be removed from the display. This card should be shown on the next app start. <br>
 ✔ On tapping "dismiss now" action, it should be removed from the display. This card should never be visible again. <br>
-✔/⏳Implement swipe down to refresh feature (note : due to time constraints this feature is not implemented fully) <br>
+✔/⏳Implement swipe down to refresh feature (due to time constraints this feature is not implemented fully) <br>
 ✔Handle loading and error states <br>
 ✔Write structured code with flexible and reusable components <br>
 ✔Design should match as closely as possible to the one on Figma <br>
