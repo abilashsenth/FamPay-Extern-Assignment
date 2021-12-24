@@ -26,6 +26,11 @@ import java.util.ArrayList;
 
 public class AdapterHc5 extends RecyclerView.Adapter<AdapterHc5.MyViewHolder> {
 
+
+    /**
+     * RecyclerView Adapter for handling hc5 cards
+     */
+
     private final ArrayList<Card> cards;
     private final Context mContext;
     private FragmentMain mHomeFragment;
@@ -37,9 +42,9 @@ public class AdapterHc5 extends RecyclerView.Adapter<AdapterHc5.MyViewHolder> {
 
         public MyViewHolder(View view) {
             super(view);
-            hc5Image = (ImageView) view.findViewById(R.id.item_hc5_image);
-            hc5Base = (RelativeLayout) view.findViewById(R.id.item_hc5_base);
-            hc5Parent = (LinearLayout) view.findViewById(R.id.item_hc5_parent);
+            hc5Image = view.findViewById(R.id.item_hc5_image);
+            hc5Base = view.findViewById(R.id.item_hc5_base);
+            hc5Parent = view.findViewById(R.id.item_hc5_parent);
 
         }
     }
@@ -81,17 +86,6 @@ public class AdapterHc5 extends RecyclerView.Adapter<AdapterHc5.MyViewHolder> {
         });
 
 
-    }
-
-    private int getComplementaryColor( int color) {
-        int R = color & 255;
-        int G = (color >> 8) & 255;
-        int B = (color >> 16) & 255;
-        int A = (color >> 24) & 255;
-        R = 255 - R;
-        G = 255 - G;
-        B = 255 - B;
-        return R + (G << 8) + ( B << 16) + ( A << 24);
     }
 
     @Override

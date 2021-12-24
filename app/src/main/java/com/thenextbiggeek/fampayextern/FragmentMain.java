@@ -2,11 +2,15 @@ package com.thenextbiggeek.fampayextern;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,14 +18,6 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-
-import android.util.DisplayMetrics;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -33,19 +29,18 @@ import com.thenextbiggeek.fampayextern.databinding.FragmentMainBinding;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class FragmentMain extends Fragment {
-    private static final String MY_PREFS_NAME = "FamPayExternPref" ;
+    private static final String MY_PREFS_NAME = "FamPayExternPref";
+    static final String STATE_HC3 = "ishc3dismissed";
+    String API_URL = "https://run.mocky.io/v3/fefcfbeb-5c12-4722-94ad-b8f92caad1ad";
     private FragmentMainBinding binding;
     private ArrayList<CardGroup> cardGroupArrayList;
     private boolean isHc3Dismissed;
-    static final String STATE_HC3 = "ishc3dismissed";
 
 
     public FragmentMain() {
@@ -59,7 +54,6 @@ public class FragmentMain extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         binding = FragmentMainBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
@@ -76,11 +70,14 @@ public class FragmentMain extends Fragment {
         binding.fragmentMainSwiperefesh.setOnRefreshListener(() -> binding.fragmentMainSwiperefesh.setRefreshing(false));
     }
 
+    /**
+     * Initialize a new RequestQueue instance for retrieving API data,
+     * Initialize a new JsonObjectRequest instance (Volley) and parse it into POJOs with GSON
+     * And load the card views from hc1 to hc9
+     */
+
     private void fetchAPI() {
-        // Initialize a new RequestQueue instance
         RequestQueue requestQueue = Volley.newRequestQueue(Objects.requireNonNull(getActivity()));
-        // Initialize a new JsonObjectRequest instance (Volley) and parse it into POJOs with GSON
-        String API_URL = "https://run.mocky.io/v3/fefcfbeb-5c12-4722-94ad-b8f92caad1ad";
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                 Request.Method.GET,
                 API_URL,
@@ -103,8 +100,6 @@ public class FragmentMain extends Fragment {
                 },
                 Throwable::printStackTrace
         );
-
-        // Add JsonObjectRequest to the RequestQueue
         requestQueue.add(jsonObjectRequest);
     }
 
@@ -122,9 +117,12 @@ public class FragmentMain extends Fragment {
 
     }
 
+    /**
+     * set up the card layout hc1
+     */
     private void setUpHc1RecyclerView() {
-        ArrayList<CardGroup> hc1CardGroupsScroll = new ArrayList<CardGroup>();
-        ArrayList<CardGroup> hc1CardGroupsNoScroll = new ArrayList<CardGroup>();
+        ArrayList<CardGroup> hc1CardGroupsScroll = new ArrayList<>();
+        ArrayList<CardGroup> hc1CardGroupsNoScroll = new ArrayList<>();
 
         for (int i = 0; i < cardGroupArrayList.size(); i++) {
             if (cardGroupArrayList.get(i).getDesign_type().equals("HC1")) {
@@ -135,56 +133,43 @@ public class FragmentMain extends Fragment {
                 }
             }
         }
-        ArrayList<Card> hc1CardsScroll = new ArrayList<Card>();
+
+        //for scroll enabled hc1s
+        ArrayList<Card> hc1CardsScroll = new ArrayList<>();
         for (int i = 0; i < hc1CardGroupsScroll.size(); i++) {
             hc1CardsScroll.addAll(hc1CardGroupsScroll.get(i).getCards());
         }
 
-        ArrayList<Card> hc1CardsNoScroll = new ArrayList<Card>();
-        for (int i = 0; i < hc1CardGroupsNoScroll.size(); i++) {
-            hc1CardsNoScroll.addAll(hc1CardGroupsNoScroll.get(i).getCards());
-        }
         AdapterHc1 adapterHc1Scroll = new AdapterHc1(hc1CardsScroll, getContext());
         binding.hc1RecyclerviewScroll.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
         binding.hc1RecyclerviewScroll.setItemAnimator(new DefaultItemAnimator());
         binding.hc1RecyclerviewScroll.setAdapter(adapterHc1Scroll);
-        binding.hc1RecyclerviewScroll.addOnItemTouchListener(new RecyclerTouchListener(getContext(), binding.hc3Recyclerview, new RecyclerTouchListener.ClickListener() {
-            @Override
-            public void onClick(View view, int position) {
 
-            }
-
-            @Override
-            public void onLongClick(View view, int position) {
-            }
-        }));
-
+        //for scroll disabled hc1s
+        ArrayList<Card> hc1CardsNoScroll = new ArrayList<>();
+        for (int i = 0; i < hc1CardGroupsNoScroll.size(); i++) {
+            hc1CardsNoScroll.addAll(hc1CardGroupsNoScroll.get(i).getCards());
+        }
         AdapterHc1 adapterHc1NoScroll = new AdapterHc1(hc1CardsNoScroll, getContext());
         binding.hc1RecyclerviewNoscroll.setVisibility(View.VISIBLE);
         binding.hc1RecyclerviewNoscroll.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         binding.hc1RecyclerviewNoscroll.setItemAnimator(new DefaultItemAnimator());
         binding.hc1RecyclerviewNoscroll.setAdapter(adapterHc1NoScroll);
-        binding.hc1RecyclerviewNoscroll.addOnItemTouchListener(new RecyclerTouchListener(getContext(), binding.hc3Recyclerview, new RecyclerTouchListener.ClickListener() {
-            @Override
-            public void onClick(View view, int position) {
 
-            }
-
-            @Override
-            public void onLongClick(View view, int position) {
-            }
-        }));
     }
 
+    /**
+     * set up the card layout hc9
+     */
     private void setUpHc9RecyclerView() {
 
-        ArrayList<CardGroup> hc9CardGroups = new ArrayList<CardGroup>();
+        ArrayList<CardGroup> hc9CardGroups = new ArrayList<>();
         for (int i = 0; i < cardGroupArrayList.size(); i++) {
             if (cardGroupArrayList.get(i).getDesign_type().equals("HC9")) {
                 hc9CardGroups.add(cardGroupArrayList.get(i));
             }
         }
-        ArrayList<Card> hc9Cards = new ArrayList<Card>();
+        ArrayList<Card> hc9Cards = new ArrayList<>();
         for (int i = 0; i < hc9CardGroups.size(); i++) {
             hc9Cards.addAll(hc9CardGroups.get(i).getCards());
         }
@@ -192,27 +177,20 @@ public class FragmentMain extends Fragment {
         binding.hc9Recyclerview.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
         binding.hc9Recyclerview.setItemAnimator(new DefaultItemAnimator());
         binding.hc9Recyclerview.setAdapter(adapterHc9);
-        binding.hc9Recyclerview.addOnItemTouchListener(new RecyclerTouchListener(getContext(), binding.hc3Recyclerview, new RecyclerTouchListener.ClickListener() {
-            @Override
-            public void onClick(View view, int position) {
-
-            }
-
-            @Override
-            public void onLongClick(View view, int position) {
-            }
-        }));
     }
 
-    private void setUpHc5RecyclerView() {
 
-        ArrayList<CardGroup> hc5CardGroups = new ArrayList<CardGroup>();
+    /**
+     * set up the card layout hc5
+     */
+    private void setUpHc5RecyclerView() {
+        ArrayList<CardGroup> hc5CardGroups = new ArrayList<>();
         for (int i = 0; i < cardGroupArrayList.size(); i++) {
             if (cardGroupArrayList.get(i).getDesign_type().equals("HC5")) {
                 hc5CardGroups.add(cardGroupArrayList.get(i));
             }
         }
-        ArrayList<Card> hc5Cards = new ArrayList<Card>();
+        ArrayList<Card> hc5Cards = new ArrayList<>();
         for (int i = 0; i < hc5CardGroups.size(); i++) {
             hc5Cards.addAll(hc5CardGroups.get(i).getCards());
         }
@@ -220,20 +198,14 @@ public class FragmentMain extends Fragment {
         binding.hc5Recyclerview.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
         binding.hc5Recyclerview.setItemAnimator(new DefaultItemAnimator());
         binding.hc5Recyclerview.setAdapter(adapterHc5);
-        binding.hc5Recyclerview.addOnItemTouchListener(new RecyclerTouchListener(getContext(), binding.hc3Recyclerview, new RecyclerTouchListener.ClickListener() {
-            @Override
-            public void onClick(View view, int position) {
-
-            }
-
-            @Override
-            public void onLongClick(View view, int position) {
-            }
-        }));
     }
 
+
+    /**
+     * set up the card layout hc6
+     */
     private void setUpHc6RecyclerView() {
-        ArrayList<CardGroup> hc6CardGroups = new ArrayList<CardGroup>();
+        ArrayList<CardGroup> hc6CardGroups = new ArrayList<>();
         for (int i = 0; i < cardGroupArrayList.size(); i++) {
             if (cardGroupArrayList.get(i).getDesign_type().equals("HC6")) {
                 hc6CardGroups.add(cardGroupArrayList.get(i));
@@ -244,24 +216,30 @@ public class FragmentMain extends Fragment {
         binding.hc6Recyclerview.setLayoutManager(mLayoutManager);
         binding.hc6Recyclerview.setItemAnimator(new DefaultItemAnimator());
         binding.hc6Recyclerview.setAdapter(adapterHc6);
-        binding.hc6Recyclerview.addOnItemTouchListener(new RecyclerTouchListener(getContext(), binding.hc3Recyclerview, new RecyclerTouchListener.ClickListener() {
-            @Override
-            public void onClick(View view, int position) {
+    }
 
+
+    /**
+     * set up the main card layout hc3
+     */
+    private void setUpHc3RecyclerView() {
+        ArrayList<CardGroup> hc3CardGroups = new ArrayList<>();
+        for (int i = 0; i < cardGroupArrayList.size(); i++) {
+            if (cardGroupArrayList.get(i).getDesign_type().equals("HC3")) {
+                hc3CardGroups.add(cardGroupArrayList.get(i));
             }
-
-            @Override
-            public void onLongClick(View view, int position) {
-            }
-        }));
-
+        }
+        AdapterHc3 adapterHc3 = new AdapterHc3(hc3CardGroups, getContext(), this);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
+        binding.hc3Recyclerview.setLayoutManager(mLayoutManager);
+        binding.hc3Recyclerview.setItemAnimator(new DefaultItemAnimator());
+        binding.hc3Recyclerview.setAdapter(adapterHc3);
     }
 
     public void hideHc3(boolean isDismissed) {
-        Timer timerObj = new Timer();
         TimerTask timerTaskObj = new TimerTask() {
             public void run() {
-                getActivity().runOnUiThread(() -> {
+                Objects.requireNonNull(getActivity()).runOnUiThread(() -> {
                     binding.hc3Recyclerview.setVisibility(View.GONE);
                     if (isDismissed) {
                         Toast.makeText(getContext(), "Card is dismissed", Toast.LENGTH_SHORT).show();
@@ -273,42 +251,20 @@ public class FragmentMain extends Fragment {
                 });
             }
         };
-        timerObj.schedule(timerTaskObj, 2000);
+        new Timer().schedule(timerTaskObj, 2000);
 
     }
 
+    /**
+     * quick instance saving for acknowledging whether hc3 card is dismissed forever or snoozed
+     *
+     * @param b
+     */
     private void editSharedPref(boolean b) {
         SharedPreferences.Editor editor = getActivity().getSharedPreferences(MY_PREFS_NAME, getContext().MODE_PRIVATE).edit();
         editor.putBoolean(STATE_HC3, b);
         editor.apply();
     }
-
-
-    private void setUpHc3RecyclerView() {
-        ArrayList<CardGroup> hc3CardGroups = new ArrayList<CardGroup>();
-        for (int i = 0; i < cardGroupArrayList.size(); i++) {
-            if (cardGroupArrayList.get(i).getDesign_type().equals("HC3")) {
-                hc3CardGroups.add(cardGroupArrayList.get(i));
-            }
-        }
-        AdapterHc3 adapterHc3 = new AdapterHc3(hc3CardGroups, getContext(), this);
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
-        binding.hc3Recyclerview.setLayoutManager(mLayoutManager);
-        binding.hc3Recyclerview.setItemAnimator(new DefaultItemAnimator());
-        binding.hc3Recyclerview.setAdapter(adapterHc3);
-        binding.hc3Recyclerview.addOnItemTouchListener(new RecyclerTouchListener(getContext(), binding.hc3Recyclerview, new RecyclerTouchListener.ClickListener() {
-            @Override
-            public void onClick(View view, int position) {
-
-            }
-
-            @Override
-            public void onLongClick(View view, int position) {
-            }
-        }));
-
-    }
-
 
     private boolean isNetworkAvailable() {
         ConnectivityManager connectivityManager

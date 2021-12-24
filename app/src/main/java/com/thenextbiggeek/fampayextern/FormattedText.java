@@ -2,6 +2,10 @@ package com.thenextbiggeek.fampayextern;
 
 import java.util.ArrayList;
 
+/**
+ * A plain Old Java class instance that mirrors the FormattedText attribute from the API
+ */
+
 public class FormattedText {
     private String text;
     private ArrayList<Entity> entities;

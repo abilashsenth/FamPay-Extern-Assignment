@@ -29,6 +29,11 @@ import mehdi.sakout.fancybuttons.FancyButton;
 
 public class AdapterHc6  extends RecyclerView.Adapter<AdapterHc6.MyViewHolder> {
 
+
+    /**
+     * RecyclerView Adapter for handling hc6 cards
+     */
+
     private final ArrayList<CardGroup> cardGroup;
     private final Context mContext;
     private FragmentMain mHomeFragment;
@@ -41,10 +46,10 @@ public class AdapterHc6  extends RecyclerView.Adapter<AdapterHc6.MyViewHolder> {
 
         public MyViewHolder(View view) {
             super(view);
-            hc6Icon = (ImageView) view.findViewById(R.id.item_hc6_icon);
-            hc6Title = (TextView) view.findViewById(R.id.item_hc6_title);
-            hc6Base = (RelativeLayout) view.findViewById(R.id.item_hc6_base);
-            hc6Parent = (LinearLayout) view.findViewById(R.id.item_hc6_parent);
+            hc6Icon = view.findViewById(R.id.item_hc6_icon);
+            hc6Title = view.findViewById(R.id.item_hc6_title);
+            hc6Base = view.findViewById(R.id.item_hc6_base);
+            hc6Parent = view.findViewById(R.id.item_hc6_parent);
 
         }
     }
@@ -89,16 +94,6 @@ public class AdapterHc6  extends RecyclerView.Adapter<AdapterHc6.MyViewHolder> {
 
     }
 
-    private int getComplementaryColor( int color) {
-        int R = color & 255;
-        int G = (color >> 8) & 255;
-        int B = (color >> 16) & 255;
-        int A = (color >> 24) & 255;
-        R = 255 - R;
-        G = 255 - G;
-        B = 255 - B;
-        return R + (G << 8) + ( B << 16) + ( A << 24);
-    }
 
     @Override
     public int getItemCount() {

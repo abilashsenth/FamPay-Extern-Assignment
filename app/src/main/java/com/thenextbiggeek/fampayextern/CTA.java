@@ -1,5 +1,9 @@
 package com.thenextbiggeek.fampayextern;
 
+/**
+ * A plain Old Java class instance that mirrors the CTA attribute from the API
+ */
+
 public class CTA {
     private String text, bg_color, url, text_color;
 

@@ -43,6 +43,11 @@ import mehdi.sakout.fancybuttons.FancyButton;
 
 public class AdapterHc3 extends RecyclerView.Adapter<AdapterHc3.MyViewHolder> {
 
+
+    /**
+     * RecyclerView Adapter for handling hc3 cards
+     */
+
     private final ArrayList<CardGroup> cardGroup;
     private final Context mContext;
     private FragmentMain mHomeFragment;
@@ -60,16 +65,16 @@ public class AdapterHc3 extends RecyclerView.Adapter<AdapterHc3.MyViewHolder> {
 
         public MyViewHolder(View view) {
             super(view);
-            hc3BgImage = (ImageView) view.findViewById(R.id.item_hc3_bg_image);
-            hc3Button = (FancyButton) view.findViewById(R.id.item_hc3_button);
-            hc3Title = (TextView) view.findViewById(R.id.item_hc3_title);
-            hc3Subtitle = (TextView) view.findViewById(R.id.item_hc3_sub_title);
-            hc3Base = (FrameLayout) view.findViewById(R.id.item_hc3_base);
-            hc3menu = (FrameLayout) view.findViewById(R.id.item_hc3_menu);
-            hc3Parent = (CardView) view.findViewById(R.id.item_hc3_parent);
-            hc3BaseDismiss = (FancyButton) view.findViewById(R.id.item_hc3_menu_btn_dismiss);
-            hc3BaseSnooze = (FancyButton) view.findViewById(R.id.item_hc3_menu_btn_snooze);
-            hc3Layout = (LinearLayout) view.findViewById(R.id.item_hc3_linearlayout);
+            hc3BgImage = view.findViewById(R.id.item_hc3_bg_image);
+            hc3Button = view.findViewById(R.id.item_hc3_button);
+            hc3Title = view.findViewById(R.id.item_hc3_title);
+            hc3Subtitle = view.findViewById(R.id.item_hc3_sub_title);
+            hc3Base = view.findViewById(R.id.item_hc3_base);
+            hc3menu = view.findViewById(R.id.item_hc3_menu);
+            hc3Parent = view.findViewById(R.id.item_hc3_parent);
+            hc3BaseDismiss = view.findViewById(R.id.item_hc3_menu_btn_dismiss);
+            hc3BaseSnooze = view.findViewById(R.id.item_hc3_menu_btn_snooze);
+            hc3Layout = view.findViewById(R.id.item_hc3_linearlayout);
 
 
         }
@@ -191,10 +196,6 @@ public class AdapterHc3 extends RecyclerView.Adapter<AdapterHc3.MyViewHolder> {
         });
 
 
-    }
-
-    private void hideLayout(MyViewHolder holder) {
-        holder.hc3Layout.setVisibility(View.GONE);
     }
 
     private void vibrateQuick(int i) {

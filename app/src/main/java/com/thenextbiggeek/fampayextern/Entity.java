@@ -1,5 +1,9 @@
 package com.thenextbiggeek.fampayextern;
 
+/**
+ * A plain Old Java class instance that mirrors the Entity attribute from the API
+ */
+
 public class Entity {
     private String text, color, url, font_style;
 

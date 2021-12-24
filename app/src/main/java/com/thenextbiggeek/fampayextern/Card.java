@@ -2,6 +2,10 @@ package com.thenextbiggeek.fampayextern;
 
 import java.util.ArrayList;
 
+/**
+ * A plain Old Java class instance that mirrors the Card attribute from the API
+ */
+
 public class Card {
     private String name, title, description, url, bg_color;
     private CardImage icon, bg_image;

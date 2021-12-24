@@ -1,5 +1,9 @@
 package com.thenextbiggeek.fampayextern;
 
+/**
+ * A plain Old Java class instance that mirrors the CardImage attribute from the API
+ */
+
 public class CardImage {
     private String image_type, asset_type, image_url;
     private float aspect_ratio;

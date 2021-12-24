@@ -2,6 +2,10 @@ package com.thenextbiggeek.fampayextern;
 
 import java.util.ArrayList;
 
+/**
+ * A plain Old Java class instance that mirrors the Gradient attribute from the API
+ */
+
 public class Gradient {
     private ArrayList<String> colors;
     private int angle;

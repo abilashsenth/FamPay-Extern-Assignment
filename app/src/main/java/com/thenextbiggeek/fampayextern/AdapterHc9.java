@@ -25,6 +25,10 @@ import java.util.ArrayList;
 
 public class AdapterHc9 extends RecyclerView.Adapter<AdapterHc9.MyViewHolder> {
 
+    /**
+     * RecyclerView Adapter for handling hc9 cards
+     */
+
     private final ArrayList<Card> cards;
     private final Context mContext;
     private FragmentMain mHomeFragment;
@@ -37,9 +41,9 @@ public class AdapterHc9 extends RecyclerView.Adapter<AdapterHc9.MyViewHolder> {
 
         public MyViewHolder(View view) {
             super(view);
-            hc9Image = (ImageView) view.findViewById(R.id.item_hc9_image);
-            hc9Base = (RelativeLayout) view.findViewById(R.id.item_hc9_base);
-            hc9Parent = (LinearLayout) view.findViewById(R.id.item_hc9_parent);
+            hc9Image = view.findViewById(R.id.item_hc9_image);
+            hc9Base = view.findViewById(R.id.item_hc9_base);
+            hc9Parent = view.findViewById(R.id.item_hc9_parent);
 
         }
     }
@@ -81,18 +85,6 @@ public class AdapterHc9 extends RecyclerView.Adapter<AdapterHc9.MyViewHolder> {
 
 
     }
-
-    private int getComplementaryColor( int color) {
-        int R = color & 255;
-        int G = (color >> 8) & 255;
-        int B = (color >> 16) & 255;
-        int A = (color >> 24) & 255;
-        R = 255 - R;
-        G = 255 - G;
-        B = 255 - B;
-        return R + (G << 8) + ( B << 16) + ( A << 24);
-    }
-
 
     @Override
     public int getItemCount() {
